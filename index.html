@@ -207,7 +207,7 @@ $(document).ready(function inicio(){
       var Id=$("#idEliminar").val();
       $.ajax({
 	type:"POST",
-	url:"eliminar.php",
+	url:"http://imedatosmoviles.260mb.net/eliminar.php",
 	data:"id="+Id,
 	success: eliminado
       });
