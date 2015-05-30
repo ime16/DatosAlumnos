@@ -1,0 +1,326 @@
+<!DOCTYPE HTML-->
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="css/jquery-ui.css">
+<link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
+<!--link rel="stylesheet" href="css/jquery.mobile.theme-1.4.5.min.css"-->
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script> 
+<style type="text/css">
+p{
+  text-align:center;
+}
+</style>
+<script type="text/javascript">
+$(document).ready(function inicio(){
+    var btnGuardar=$("#btnGuardar");//Selección del boton
+    btnGuardar.click(function guardarInf(){//utilzación del evento clic del boton  
+     
+      var nombre=$("#nombre").val();
+      var apellido=$("#txtApellidos").val();
+      var noCotrol=$("#txtNoControl").val();
+      var edad=$("#txtEdad").val();
+       alert("Ejecución correcta: nom="+nombre+"&aps="+apellido+"&nc="+noCotrol+"&ed="+edad);
+	  $.ajax({
+	    type:"POST",
+	    url:"http://imedatosmoviles.260mb.net//htdocs/guardarDatos.php",
+	    data:"nom="+nombre+"&aps="+apellido+"&nc="+noCotrol+"&ed="+edad,
+	    success: respuestaServ
+	  });      
+	  
+	  function respuestaServ(datos){
+	    alert("respuesta: "+datos);
+	  }
+	  
+    });
+    
+    var btnConsultar=$("#btnConsultar");
+    btnConsultar.click(function consulta(){
+        $.ajax({
+	    type:"POST",
+	    url:"http://imedatosmoviles.260mb.net//htdocs/p_consulta.php",
+            data:"",
+	    success: respuesta
+	  });      
+	  
+	  function respuesta(datos){
+	    //alert("respuesta: "+datos);
+            var dat=$.parseJSON(datos);
+            var divRes=$("#resultado");
+            divRes.html("");
+            divRes.append("<center><table border= '1' id='tab'><tr><th>ID</th><th>Nombre</th><th>Apellidos</th><th>NumControl</th><th>Edad</th></tr>");
+            var tabla=$("#tab");
+            for(var i in dat){
+                tabla.append("\
+                    <tr><td>"+dat[i].id+"</td>"
+                    +"<td>"+dat[i].nombre+"</td>"
+                    +"<td>"+dat[i].apellidos+"</td>"
+                    +"<td>"+dat[i].noc+"</td>"
+                    +"<td>"+dat[i].edad+"</td></tr>"
+                    );
+            }
+            tabla.append("</table></center>");
+	  }
+    });
+    
+    var btnCons2=$("#btnCons2");
+    btnCons2.click(function cons2(){
+      var idConsulta=$("#idConsulta").val();
+      $.ajax({
+         type:"POST",
+         url:"http://imedatosmoviles.260mb.net//htdocs/consultaUno.php",
+         data:"id="+idConsulta,
+         success:resConUno
+      });
+      	  function resConUno(datos){
+	    //alert("respuesta: "+datos);
+            var dat=$.parseJSON(datos);
+            var divRes=$("#idResCont2");
+            divRes.html("");
+            divRes.append("<center><table border= '1' id='tab2' ><tr><th>ID</th><th>Nombre</th><th>Apellidos</th><th>NumControl</th><th>Edad</th></tr>");
+            var tabla=$("#tab2");
+            for(var i in dat){
+                tabla.append("\
+                    <tr><td>"+dat[i].id+"</td>"
+                    +"<td>"+dat[i].nombre+"</td>"
+                    +"<td>"+dat[i].apellidos+"</td>"
+                    +"<td>"+dat[i].noc+"</td>"
+                    +"<td>"+dat[i].edad+"</td></tr>"
+                    );
+            }
+            tabla.append("</table></center>");
+	  }
+    });
+    var btnMostAct=$("#btnMostAct");
+    btnMostAct.click(function MostrarDatos(){
+              $.ajax({
+	    type:"POST",
+	    url:"http://imedatosmoviles.260mb.net//htdocs/p_consulta.php",
+            data:"",
+	    success: resMostrar
+	  });      
+	  
+	  function resMostrar(datos){
+	    //alert("respuesta: "+datos);
+            var dat=$.parseJSON(datos);
+            var divRes=$("#resDatosActualizar");
+            divRes.html("");
+            divRes.append("<center><table border= '1' id='tab3' ><tr><th>ID</th><th>Nombre</th><th>Apellidos</th><th>NumControl</th><th>Edad</th></tr>");
+            var tabla=$("#tab3");
+            for(var i in dat){
+                tabla.append("\
+                    <tr><td>"+dat[i].id+"</td>"
+                    +"<td>"+dat[i].nombre+"</td>"
+                    +"<td>"+dat[i].apellidos+"</td>"
+                    +"<td>"+dat[i].noc+"</td>"
+                    +"<td>"+dat[i].edad+"</td></tr>"
+                    );
+            }
+            tabla.append("</table></center>");
+	  }  
+    });
+    
+    var btnCargarDatosAct=$("#btnCargarDatosAct");
+    btnCargarDatosAct.click(function cargarDatos(){
+    var idActualizar=$("#idActualizar").val();
+      $.ajax({
+         type:"POST",
+         url:"http://imedatosmoviles.260mb.net//htdocs/consultaUno.php",
+         data:"id="+idActualizar,
+         success:resCargarDatos
+      });
+      	  function resCargarDatos(datos){
+	    alert("listo: "+datos);
+            var dat=$.parseJSON(datos);
+            var divRes=$("#idDibujarControles");
+            divRes.html("");
+            divRes.append("<label for= 'idReg'>ID</label><input type='text' id='idReg' disabled='true'>"+
+             "<label for= 'nomReg'>Nombre</label><input type='text' id='nomReg'>" +
+             "<label for= 'nomApp'>Apellidos</label><input type='text' id='nomApp'>"+
+             "<label for= 'ncReg'>No.Control</label><input type='text' id='ncReg'>"+
+             "<label for= 'edadReg'>Edad</label><input type='text' id='edadReg'>");
+     var i=0;
+     $("#idReg").val(dat[i].id);
+     $("#nomReg").val(dat[i].nombre);
+     $("#nomApp").val(dat[i].apellidos);
+     $("#ncReg").val(dat[i].noc);
+     $("#edadReg").val(dat[i].edad);
+
+	  }
+        
+    });
+     var btnGuardarAct=$("#btnGuardarAct");
+    btnGuardarAct.click(function guardarAct(){
+        var id=parseInt($("#idReg").val());
+        var nombre=$("#nomReg").val();
+      var apellidos=$("#nomApp").val();
+      var noCotrol=$("#ncReg").val();
+      var edad=$("#edadReg").val();
+	  $.ajax({
+	    type:"POST",
+	    url:"http://imedatosmoviles.260mb.net//htdocs/guardarDatosAct.php",
+	    data:"id="+id+"&nom="+nombre+"&aps="+apellidos+"&nc="+noCotrol+"&ed="+edad,
+	    success: respGuardarAct
+	  });      
+	  
+	  function respGuardarAct(datos){
+	    alert("respuesta: "+datos);
+	  }	  
+    });
+    var btnMostEliminar=$("#btnMostEliminar");
+   btnMostEliminar.click(function conEliminar(){
+       
+   });
+   var btnMostEliminar=$("#btnMostEliminar");
+    btnMostEliminar.click(function eliminar(){      
+      $.ajax({
+	type:"POST",
+	url:"http://imedatosmoviles.260mb.net//htdocs/p_consulta.php",
+	data:"",
+	success: resConsELiminar
+      });
+      
+      function resConsELiminar(datos){
+	var dat=$.parseJSON(datos);
+	var divRes=$("#resDatosEliminar");
+	divRes.html("");
+	divRes.append("<table border='1' id='tab4'><tr><th>ID</th><th>Nombre</th><th>Apellidos</th><th>NumControl</th><th>Edad</th></tr>");
+	var tabla=$("#tab4");	
+	for(var i in dat){
+	tabla.append("<tr><td>"+dat[i].id+"</td>"
+                    +"<td>"+dat[i].nombre+"</td>"
+                    +"<td>"+dat[i].apellidos+"</td>"
+                    +"<td>"+dat[i].noc+"</td>"
+                    +"<td>"+dat[i].edad+"</td></tr>"
+                    );
+
+
+	}
+	tabla.append("</table>");
+      }
+    });
+    
+    var btnEliminar=$("#btnEliminar");
+    btnEliminar.click(function conEliminar(){
+      var Id=$("#idEliminar").val();
+      $.ajax({
+	type:"POST",
+	url:"eliminar.php",
+	data:"id="+Id,
+	success: eliminado
+      });
+      
+      function eliminado(datos){
+	alert("Respuesta: "+datos);
+      }
+    });
+});
+</script>
+</head>
+<body>
+<div data-role="page" id="menu">
+    <div data-role="header">
+      <p>Menu</p>
+    </div>
+    <div data-role="content">
+        <ul data-role="listview">
+            <li><a href="#insertar">Insetar registro</a></li>
+            <li><a href="#consulta">Consultar toos los registros</a></li>
+            <li><a href="#consulta2">Consulta un registro</a></li>
+            <li><a href="#actualizar">Actualizacion</a></li>
+            <li><a href="#Eliminar">Eliminar un registro</a></li>
+        </ul>
+    </div>
+    <div data-role="footer">
+      <p>Derechos reservados</p>
+    </div>
+</div>
+    
+<div data-role="page" id="insertar">
+    <div data-role="header">
+      <p>Insertar</p>
+    </div>
+    <div data-role="content">
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" placeholder="Escribe tu nombre">
+      <label for="txtApellidos">Apellidos:</label>
+      <input type="text" id="txtApellidos" placeholder="Escribe tus apellidos">
+      <label for="txtNoControl">No.Control:</label>
+      <input type="text" id="txtNoControl" placeholder="Escribe tu No. de control">
+      <label for="txtEdad">Edad:</label>
+      <input type="text" id="txtEdad" placeholder="Escribe tu edad">
+      <input type="button" id="btnGuardar" value="Guardar">
+    </div>
+    <div data-role="footer">
+      <p>Derechos reservados</p>
+    </div>
+</div>
+    
+<div data-role="page" id="consulta">
+    <div data-role="header">
+      <p>Consulta</p>
+    </div>
+    <div data-role="content">
+       <input type="button" id="btnConsultar" value="Consultar">
+       <div id="resultado" >
+               
+       </div>
+    </div>
+    <div data-role="footer">
+      <p>Derechos reservados</p>
+    </div>
+</div>
+    
+<div data-role="page" id="consulta2">
+    <div data-role="header">
+      <p>Consultar un registro</p>
+    </div>
+    <div data-role="content">
+        <label for="idConsulta">ID:</label>
+        <input type="text" id="idConsulta"/>
+       <input type="button" id="btnCons2" value="Consultar">
+       <div id="idResCont2" >
+               
+       </div>
+    </div>
+    <div data-role="footer">
+      <p>Derechos reservados</p>
+    </div>
+</div>
+    
+<div data-role="page" id="actualizar">
+    <div data-role="header">
+      <p>Actualizar un registro</p>
+    </div>
+    <div data-role="content">
+        <input type="button" id="btnMostAct" value="Mostrar registros">
+        <div id="resDatosActualizar"></div>
+        <label for="idActualizar">ID:</label>
+        <input type="text" id="idActualizar"/>
+        <input type="button" id="btnCargarDatosAct" value="Cargar datos">
+        <div id="idDibujarControles"></div>
+       <input type="button" id="btnGuardarAct" value="Guardar">
+    </div>
+    <div data-role="footer">
+      <p>Derechos reservados</p>
+    </div>
+    </div>   
+    <div data-role="page" id="Eliminar">
+    <div data-role="header">
+      <p>Eliminar un registro</p>
+    </div>
+    <div data-role="content">
+        <input type="button" id="btnMostEliminar" value="Mostrar registros">
+        <div id="resDatosEliminar"></div>
+        <label for="idEliminar">ID:</label>
+        <input type="text" id="idEliminar"/>
+       <input type="button" id="btnEliminar" value="Eliminar">
+    </div>
+    <div data-role="footer">
+      <p>Derechos reservados</p>
+    </div>
+</div>    
+</body>
+</html>
