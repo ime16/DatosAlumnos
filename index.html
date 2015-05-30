@@ -25,7 +25,7 @@ $(document).ready(function inicio(){
        alert("Ejecución correcta: nom="+nombre+"&aps="+apellido+"&nc="+noCotrol+"&ed="+edad);
 	  $.ajax({
 	    type:"POST",
-	    url:"http://imedatosmoviles.260mb.net//htdocs/guardarDatos.php",
+	    url:"http://imedatosmoviles.260mb.net/guardarDatos.php",
 	    data:"nom="+nombre+"&aps="+apellido+"&nc="+noCotrol+"&ed="+edad,
 	    success: respuestaServ
 	  });      
@@ -40,7 +40,7 @@ $(document).ready(function inicio(){
     btnConsultar.click(function consulta(){
         $.ajax({
 	    type:"POST",
-	    url:"http://imedatosmoviles.260mb.net//htdocs/p_consulta.php",
+	    url:"http://imedatosmoviles.260mb.net/p_consulta.php",
             data:"",
 	    success: respuesta
 	  });      
@@ -70,7 +70,7 @@ $(document).ready(function inicio(){
       var idConsulta=$("#idConsulta").val();
       $.ajax({
          type:"POST",
-         url:"http://imedatosmoviles.260mb.net//htdocs/consultaUno.php",
+         url:"http://imedatosmoviles.260mb.net/consultaUno.php",
          data:"id="+idConsulta,
          success:resConUno
       });
@@ -97,7 +97,7 @@ $(document).ready(function inicio(){
     btnMostAct.click(function MostrarDatos(){
               $.ajax({
 	    type:"POST",
-	    url:"http://imedatosmoviles.260mb.net//htdocs/p_consulta.php",
+	    url:"http://imedatosmoviles.260mb.net/p_consulta.php",
             data:"",
 	    success: resMostrar
 	  });      
@@ -127,7 +127,7 @@ $(document).ready(function inicio(){
     var idActualizar=$("#idActualizar").val();
       $.ajax({
          type:"POST",
-         url:"http://imedatosmoviles.260mb.net//htdocs/consultaUno.php",
+         url:"http://imedatosmoviles.260mb.net/consultaUno.php",
          data:"id="+idActualizar,
          success:resCargarDatos
       });
@@ -160,7 +160,7 @@ $(document).ready(function inicio(){
       var edad=$("#edadReg").val();
 	  $.ajax({
 	    type:"POST",
-	    url:"http://imedatosmoviles.260mb.net//htdocs/guardarDatosAct.php",
+	    url:"http://imedatosmoviles.260mb.net/guardarDatosAct.php",
 	    data:"id="+id+"&nom="+nombre+"&aps="+apellidos+"&nc="+noCotrol+"&ed="+edad,
 	    success: respGuardarAct
 	  });      
@@ -177,7 +177,7 @@ $(document).ready(function inicio(){
     btnMostEliminar.click(function eliminar(){      
       $.ajax({
 	type:"POST",
-	url:"http://imedatosmoviles.260mb.net//htdocs/p_consulta.php",
+	url:"http://imedatosmoviles.260mb.net/p_consulta.php",
 	data:"",
 	success: resConsELiminar
       });
